@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
   /////// UDP socket ////////
   int sockfd;
   const char* ServerAddress = "127.0.0.1";
-  const uint16_t Port = 7777;
+  const uint16_t Port = 13145;
   struct sockaddr_in addr;
   addr.sin_family = AF_INET;
   addr.sin_addr.s_addr = inet_addr(ServerAddress);
@@ -146,14 +146,14 @@ int main(int argc, char *argv[]) {
     //float scanTime;
   } scanDataSet2;
   int i = 0;
-
+  
   while (ret && ydlidar::ok()) {
     bool hardError;
     LaserScan scan;
 
     if (laser.doProcessSimple(scan, hardError)) {
       //printf("scan.ranges.size() = %ld\n", scan.ranges.size());
-      scanDataSet2.points2 = scan.ranges.size();
+      //scanDataSet2.points2 = scan.ranges.size();
       for (int i = 0; i < scan.ranges.size(); i++) {
         float angle = scan.config.min_angle + i * scan.config.ang_increment;
         float dis = scan.ranges[i]*2;
@@ -167,25 +167,26 @@ int main(int argc, char *argv[]) {
         // scanDataSet2.angle_array2.push_back(angle);
         // scanDataSet2.dist_array2.push_back(dis);
         //printf("scan.ranges.size() = %ld\n", scan.ranges.size());
-        printf("i: %d  %d  angle = %f  dist = %f \n", i, scanDataSet.points,scanDataSet.angle_array, scanDataSet.dist_array);
+        //printf("angle_array = %f\n",scanDataSet.angle_array);
+        //printf("dist_array = %f\n",scanDataSet.dist_array);
         //printf("angle: %f   dist: %f \n", (angle*180.0/3.14), dis);
       }
       
-      // sendto(sockfd, &scanDataSet2, sizeof(scanDataSet2),0,
-      //   (const struct sockaddr*)&addr, sizeof(addr));
-      // scanDataSet2.angle_array2.clear();
-      // scanDataSet2.dist_array2.clear();
+      /*sendto(sockfd, &scanDataSet2, sizeof(scanDataSet2),0,
+        (const struct sockaddr*)&addr, sizeof(addr));
+      scanDataSet2.angle_array2.clear();
+      scanDataSet2.dist_array2.clear();*/
       
       //scanDataSet.scanTime = (float)scan.config.scan_time;
-      // printf("points %d\n", scanDataSet.points);
-      // printf("sizeof ang array %d\n", sizeof(scanDataSet.angle_array));
-      // printf("sizeof dis array %d\n", sizeof(scanDataSet.dist_array));
+      //printf("points %d\n", scanDataSet.points);
+      //printf("sizeof ang array %d\n", sizeof(scanDataSet.angle_array));
+      //printf("sizeof dis array %d\n", sizeof(scanDataSet.dist_array));
       //printf("scan time %f\n", scan.config.scan_time);
       
       
-      // ydlidar::console.message("Scan received[%llu]: %u ranges is [%f]Hz",
-      //                          scan.self_time_stamp, (unsigned int)scan.ranges.size(),
-      //                          1.0 / scan.config.scan_time);
+      ydlidar::console.message("Scan received[%llu]: %u ranges is [%f]Hz",
+                               scan.self_time_stamp, (unsigned int)scan.ranges.size(),
+                               1.0 / scan.config.scan_time);
       
     } else {
       ydlidar::console.warning("Failed to get Lidar Data");

@@ -1,3 +1,11 @@
+My modification is, I made a copy of sample folder to sample_cv and also change CMakelist file to make it compile my sample code.
+There are UdpSender.cpp and UdpSender.hpp files that I added into src/ and include/
+Those codes I got it from my colleague Mark Fassler, you can check the original code from his repo https://github.com/mfassler/collision-detector
+
+The distance and angle data will be streamed out at 3101 port and Lidar map image will be streamed out at 3201 port.
+
+=====================================================================
+
 YDLIDAR SDK PACKAGE V1.4.2
 =====================================================================
 
