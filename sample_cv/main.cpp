@@ -169,7 +169,7 @@ int main(int argc, char *argv[]) {
   cv::Mat lidar_map = blank_map.clone();
   float pi = 3.14159;
   float offsetAngle = 5.2*pi/180.0;
-  float deg_inc = 2.4;
+  float deg_inc = 1.6;  //2.4
 
   int i = 0;
 
@@ -189,7 +189,9 @@ int main(int argc, char *argv[]) {
       //printf("scan.ranges.size() = %ld\n", scan.ranges.size());
 
       int inc=0;
-      float prev_deg = -90.0 - deg_inc;
+      float minAngRange = -60.0;
+      float maxAngRange = 60.0;
+      float prev_deg = minAngRange - deg_inc;
 
       for (int i = 0; i < scan.ranges.size(); i++) {
         float angle = scan.config.min_angle + i * scan.config.ang_increment + offsetAngle ;
@@ -214,10 +216,10 @@ int main(int argc, char *argv[]) {
        
 
         // we focus on front side (front half cirle) of the lidar
-        if ((deg >= (-90.0 - deg_inc)) && (deg <= (90.0 + deg_inc)) && (inc < array_size)) {
+        if ((deg >= (minAngRange - deg_inc)) && (deg <= (maxAngRange + deg_inc)) && (inc < array_size)) {
            //printf("deg: %f\n", deg);
           if (abs(deg - prev_deg) >= deg_inc) {
-            printf("inc: %d  deg: %f  dist: %f\n", inc, deg, dis);
+            // printf("inc: %d  deg: %f  dist: %f\n", inc, deg, dis);
             data_packets->deg_array[inc] = deg;
             data_packets->range_array[inc] = dis;
             inc++;
